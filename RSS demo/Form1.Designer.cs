@@ -62,7 +62,6 @@
             this.groupBox1.Size = new System.Drawing.Size(200, 450);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Control Box";
             // 
             // tabControl1
             // 
@@ -81,7 +80,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Your RSS feed";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

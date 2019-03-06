@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.ServiceModel.Syndication;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -23,53 +16,52 @@ namespace RSS_demo
         {
             try
             {
-                XmlReader fd_readxml = XmlReader.Create(textBox1.Text);
-                SyndicationFeed fd_feed = SyndicationFeed.Load(fd_readxml);
+                XmlReader xmlReader = XmlReader.Create(textBox1.Text);
+                SyndicationFeed syndicationFeed = SyndicationFeed.Load(xmlReader);
 
-                TabPage fd_tab = new TabPage(fd_feed.Title.Text);
+                TabPage tabPage = new TabPage(syndicationFeed.Title.Text);
 
-                tabControl1.TabPages.Add(fd_tab);
+                tabControl1.TabPages.Add(tabPage);
 
-                ListBox fd_list = new ListBox();
-                fd_tab.Controls.Add(fd_list);
-                fd_list.Dock = DockStyle.Fill;
-                fd_list.HorizontalScrollbar = true;
+                ListBox listBox = new ListBox();
+                tabPage.Controls.Add(listBox);
+                listBox.Dock = DockStyle.Fill;
+                listBox.HorizontalScrollbar = true;
 
-                foreach (SyndicationItem fd_item in fd_feed.Items)
+                foreach (SyndicationItem syndicationItem in syndicationFeed.Items)
                 {
-                    string summary = fd_item.Summary.Text;
+                    string summaryText = syndicationItem.Summary.Text;
                     bool isRunning = true;
                     int numberOfLetters = 250;
 
-                    string fix_sum = "";
+                    string sum = "";
 
-
-                    foreach (char characterData in summary)
+                    foreach (char characterData in summaryText)
                     {
                         if (numberOfLetters >= 0 && characterData != '.' && isRunning)
                         {
                             numberOfLetters--;
-                            fix_sum = fix_sum + characterData;
+                            sum = sum + characterData;
                         }
                         else if (characterData == '.' && isRunning && (numberOfLetters <= 100 & numberOfLetters >= 0))
                         {
-                            fix_sum = fix_sum + characterData;
+                            sum = sum + characterData;
                             isRunning = false;
                         }
                         else if (isRunning && numberOfLetters >= 0)
                         {
-                            fix_sum = fix_sum + characterData;
+                            sum = sum + characterData;
                         }
                     }
 
-                    fd_list.Items.Add(fd_item.Title.Text);
-                    fd_list.Items.Add(fix_sum);
-                    fd_list.Items.Add("~ ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                    listBox.Items.Add(syndicationItem.Title.Text);
+                    listBox.Items.Add(sum);
+                    listBox.Items.Add("~ ~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                // ignored
+                Console.WriteLine(ex);
             }
         }
     }
